@@ -18,7 +18,6 @@
 
 import json
 import logging
-import random
 import string
 from typing import Any, Dict, Iterator, Optional, Set, Tuple
 
@@ -33,6 +32,7 @@ from superset.commands.export import ExportModelsCommand
 from superset.models.dashboard import Dashboard
 from superset.models.slice import Slice
 from superset.utils.dict_import_export import EXPORT_VERSION
+import secrets
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ DEFAULT_CHART_WIDTH = 4
 
 def suffix(length: int = 8) -> str:
     return "".join(
-        random.SystemRandom().choice(string.ascii_uppercase + string.digits)
+        secrets.SystemRandom().SystemRandom().choice(string.ascii_uppercase + string.digits)
         for _ in range(length)
     )
 
