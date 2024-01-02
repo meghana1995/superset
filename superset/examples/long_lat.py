@@ -15,7 +15,6 @@
 # specific language governing permissions and limitations
 # under the License.
 import datetime
-import random
 
 import geohash
 import pandas as pd
@@ -32,6 +31,7 @@ from .helpers import (
     misc_dash_slices,
     TBL,
 )
+import secrets
 
 
 def load_long_lat_data(only_metadata: bool = False, force: bool = False) -> None:
@@ -50,8 +50,8 @@ def load_long_lat_data(only_metadata: bool = False, force: bool = False) -> None
             start + datetime.timedelta(hours=i * 24 / (len(pdf) - 1))
             for i in range(len(pdf))
         ]
-        pdf["occupancy"] = [random.randint(1, 6) for _ in range(len(pdf))]
-        pdf["radius_miles"] = [random.uniform(1, 3) for _ in range(len(pdf))]
+        pdf["occupancy"] = [secrets.SystemRandom().randint(1, 6) for _ in range(len(pdf))]
+        pdf["radius_miles"] = [secrets.SystemRandom().uniform(1, 3) for _ in range(len(pdf))]
         pdf["geohash"] = pdf[["LAT", "LON"]].apply(lambda x: geohash.encode(*x), axis=1)
         pdf["delimited"] = pdf["LAT"].map(str).str.cat(pdf["LON"].map(str), sep=",")
         pdf.to_sql(  # pylint: disable=no-member
